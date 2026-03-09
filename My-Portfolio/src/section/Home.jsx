@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import React, { useMemo } from "react";
 import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import avator from "../assets/avator.png";
+import resume from "../assets/Vikash_Rajput_Resume.pdf";
 
 
 
@@ -133,9 +134,10 @@ export default function Home() {
                 shadow-lg hover:scale-105 transition-all"
                 >View My Work</a>
 
-                <a href="/Resume.pdf" 
-                download 
-                className="px-6 py-3 rounded-full text-lg font-medium text-black bg-white hover:bg-gray-200 shadow-lg hover:scale-105 transition-all"
+                <a href={resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 rounded-full text-lg font-medium text-black bg-white hover:bg-gray-200 shadow-lg hover:scale-105 transition-all"
                 >My Resume</a>
 
               </motion.div>

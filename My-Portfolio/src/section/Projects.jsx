@@ -10,7 +10,6 @@ import djangoMobile from "../assets/photo1.JPG";
 import currencyMobile from "../assets/photo2.PNG";
 import flutterMobile from "../assets/photo3.png";
 
-
 const useIsMobile = (query = "(max-width: 639px)") => {
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" && window.matchMedia(query).matches
@@ -18,10 +17,14 @@ const useIsMobile = (query = "(max-width: 639px)") => {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+
     const mql = window.matchMedia(query);
+
     const handler = (e) => setIsMobile(e.matches);
+
     mql.addEventListener("change", handler);
     setIsMobile(mql.matches);
+
     return () => mql.removeEventListener("change", handler);
   }, [query]);
 
@@ -46,13 +49,11 @@ const slideVariants = {
   }),
 };
 
-const Projects = () => {
+export default function Projects() {
   const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const timerRef = useRef(null);
-
-  /* ---------------- PROJECTS ---------------- */
 
   const projects = useMemo(
     () => [
@@ -81,10 +82,8 @@ const Projects = () => {
         tags: ["Flutter", "Dart", "Mobile"],
       },
     ],
-    []
+    [isMobile]
   );
-
-  /* ---------------- AUTO SLIDE ---------------- */
 
   const resetTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
@@ -97,6 +96,7 @@ const Projects = () => {
 
   useEffect(() => {
     resetTimer();
+
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
@@ -127,17 +127,16 @@ const Projects = () => {
 
   return (
     <section
-      id="work"
+      id="projects"
       className="relative min-h-screen py-20 bg-black text-white overflow-hidden"
     >
-      {/* Background glow like Skills */}
+      {/* Background Glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-0 w-[300px] h-[300px] rounded-full bg-gradient-to-r from-[#302b63] via-[#00bf8f] to-[#1cd8d2] opacity-20 blur-[120px] animate-pulse" />
         <div className="absolute bottom-1/4 right-0 w-[300px] h-[300px] rounded-full bg-gradient-to-r from-[#302b63] via-[#00bf8f] to-[#1cd8d2] opacity-20 blur-[120px] animate-pulse delay-500" />
       </div>
 
       <div className="flex flex-col items-center justify-center min-h-[80vh] relative z-10">
-        {/* Section label */}
         <motion.p
           className="text-[#1cd8d2] text-sm uppercase tracking-[0.2em]"
           initial={{ opacity: 0, y: -20 }}
@@ -151,9 +150,7 @@ const Projects = () => {
           Projects that define my craft
         </h2>
 
-        {/* Slider */}
         <div className="relative w-full flex items-center justify-center mt-8 md:mt-10">
-          {/* Prev */}
           <button
             onClick={goPrev}
             className="absolute left-2 md:left-8 z-30 p-2 md:p-3 rounded-full bg-white/5 border border-white/10 hover:border-[#1cd8d2]"
@@ -161,11 +158,10 @@ const Projects = () => {
             <ChevronLeft size={isMobile ? 20 : 28} />
           </button>
 
-          {/* Card */}
           <div
             className="relative overflow-hidden"
             style={{
-              width: isMobile ? "85%" : "85%",
+              width: "85%",
               maxWidth: "1100px",
               height: isMobile ? "55vh" : "65vh",
             }}
@@ -182,21 +178,18 @@ const Projects = () => {
                 className="absolute inset-0"
               >
                 <div className="relative w-full h-full rounded-2xl shadow-2xl bg-white/5 border border-white/10 hover:border-[#1cd8d2]">
-
-                  {/* Project number */}
                   <img
                     src={activeProject.image}
                     alt={activeProject.title}
                     className="w-full h-full object-cover rounded-2xl"
                   />
 
-                  {/* Info */}
                   <div className="absolute bottom-0 left-0 right-0 p-8">
                     <div className="flex flex-wrap gap-2 mb-4">
                       {activeProject.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-3 py-1 text-xs rounded-full border border-white/20 text-white/70 hover:border-[#1cd8d2]"
+                          className="px-3 py-1 text-xs rounded-full border border-white/20 text-white/70"
                         >
                           {tag}
                         </span>
@@ -216,7 +209,6 @@ const Projects = () => {
             </AnimatePresence>
           </div>
 
-          {/* Next */}
           <button
             onClick={goNext}
             className="absolute right-2 md:right-8 z-30 p-2 md:p-3 rounded-full bg-white/5 border border-white/10 hover:border-[#1cd8d2]"
@@ -225,7 +217,6 @@ const Projects = () => {
           </button>
         </div>
 
-        {/* GitHub Button */}
         <div className="mt-6">
           <a
             href={activeProject.link}
@@ -238,23 +229,20 @@ const Projects = () => {
           </a>
         </div>
 
-        {/* Dots */}
         <div className="flex gap-3 mt-4">
           {projects.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => goTo(idx)}
-            className={`h-3 w-3 rounded-full transition-all duration-300 ${
-              activeIndex === idx
-                ? "bg-[#1cd8d2] scale-125"
-                : "bg-white/30 hover:bg-white/50"
-            }`}
-          />
+            <button
+              key={idx}
+              onClick={() => goTo(idx)}
+              className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                activeIndex === idx
+                  ? "bg-[#1cd8d2] scale-125"
+                  : "bg-white/30 hover:bg-white/50"
+              }`}
+            />
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default Projects;
+}
