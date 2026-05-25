@@ -2,14 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 
-import djangoDesktop from "../assets/img1.JPG";
-import currencyDesktop from "../assets/img2.JPG";
-import flutterDesktop from "../assets/img3.JPG";
+import aethronDesktop from "../assets/aethronDesktop.png";
+import stackforgeDesktop from "../assets/stackforgeDesktop.png";
+import mausamDesktop from "../assets/mausamDesktop.JPG";
 
-import djangoMobile from "../assets/photo1.JPG";
-import currencyMobile from "../assets/photo2.PNG";
-import flutterMobile from "../assets/photo3.png";
-
+import aethronMobile from "../assets/aethronMobile.png";
+import stackforgeMobile from "../assets/stackforgeMobile.png";
+import mausamMobile from "../assets/mausamMobile.png";
 
 const useIsMobile = (query = "(max-width: 639px)") => {
   const [isMobile, setIsMobile] = useState(
@@ -18,10 +17,14 @@ const useIsMobile = (query = "(max-width: 639px)") => {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+
     const mql = window.matchMedia(query);
+
     const handler = (e) => setIsMobile(e.matches);
+
     mql.addEventListener("change", handler);
     setIsMobile(mql.matches);
+
     return () => mql.removeEventListener("change", handler);
   }, [query]);
 
@@ -46,45 +49,44 @@ const slideVariants = {
   }),
 };
 
-const Projects = () => {
+export default function Projects() {
   const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const timerRef = useRef(null);
 
-  /* ---------------- PROJECTS ---------------- */
-
   const projects = useMemo(
     () => [
       {
-        title: "Django Project",
+        title: "Aethron — AI-Powered Learning Assistant",
         description:
-          "Full-stack web application built using Django with authentication and database integration.",
-        link: "https://github.com/VikashRaj-cmd/Django",
-        image: isMobile ? djangoMobile : djangoDesktop,
-        tags: ["Python", "Django", "SQLite"],
+          "Full-stack AI-powered learning platform using MERN Stack with JWT auth, role-based access control across 3 user roles, and AI API integration for context-aware Q&A.",
+        link: "https://github.com/VikashRaj-cmd/MEARN-Projects/tree/main/Aethron",
+        live: "https://aethron.vercel.app/",
+        image: isMobile ? aethronMobile : aethronDesktop,
+        tags: ["MongoDB", "Express", "React", "Node.js", "JWT", "AI API"],
       },
       {
-        title: "Currency Converter",
+        title: "StackForge — Full-Stack Issue Tracking Platform",
         description:
-          "Real-time currency converter using exchange rate APIs with responsive UI.",
-        link: "https://github.com/VikashRaj-cmd/Currency-Converter",
-        image: isMobile ? currencyMobile : currencyDesktop,
-        tags: ["JavaScript", "API", "React"],
+          "Jira-inspired issue tracker using the MEAN stack with JWT auth, role-based access control (Admin/Manager/Developer), and RESTful APIs with pagination and filtering.",
+        link: "https://github.com/VikashRaj-cmd/stackforge",
+        live: null,
+        image: isMobile ? stackforgeMobile : stackforgeDesktop,
+        tags: ["Angular", "Node.js", "Express.js", "MongoDB", "JWT"],
       },
       {
-        title: "Flutter Mobile App",
+        title: "Mausam — Weather Forecasting Mobile App",
         description:
-          "Cross-platform mobile application developed using Flutter and Dart.",
-        link: "https://github.com/VikashRaj-cmd/Flutter",
-        image: isMobile ? flutterMobile : flutterDesktop,
-        tags: ["Flutter", "Dart", "Mobile"],
+          "Cross-platform mobile app (Android & iOS) using Flutter and Dart with real-time weather via OpenWeather API, GPS location services, and clean architecture.",
+        link: "https://github.com/VikashRaj-cmd/Flutter-App/tree/main/Mausam",
+        live: null,
+        image: isMobile ? mausamMobile : mausamDesktop,
+        tags: ["Flutter", "Dart", "OpenWeather API", "Mobile"],
       },
     ],
-    []
+    [isMobile]
   );
-
-  /* ---------------- AUTO SLIDE ---------------- */
 
   const resetTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
@@ -97,6 +99,7 @@ const Projects = () => {
 
   useEffect(() => {
     resetTimer();
+
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
@@ -127,17 +130,16 @@ const Projects = () => {
 
   return (
     <section
-      id="work"
+      id="projects"
       className="relative min-h-screen py-20 bg-black text-white overflow-hidden"
     >
-      {/* Background glow like Skills */}
+      {/* Background Glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-0 w-[300px] h-[300px] rounded-full bg-gradient-to-r from-[#302b63] via-[#00bf8f] to-[#1cd8d2] opacity-20 blur-[120px] animate-pulse" />
         <div className="absolute bottom-1/4 right-0 w-[300px] h-[300px] rounded-full bg-gradient-to-r from-[#302b63] via-[#00bf8f] to-[#1cd8d2] opacity-20 blur-[120px] animate-pulse delay-500" />
       </div>
 
       <div className="flex flex-col items-center justify-center min-h-[80vh] relative z-10">
-        {/* Section label */}
         <motion.p
           className="text-[#1cd8d2] text-sm uppercase tracking-[0.2em]"
           initial={{ opacity: 0, y: -20 }}
@@ -151,9 +153,7 @@ const Projects = () => {
           Projects that define my craft
         </h2>
 
-        {/* Slider */}
         <div className="relative w-full flex items-center justify-center mt-8 md:mt-10">
-          {/* Prev */}
           <button
             onClick={goPrev}
             className="absolute left-2 md:left-8 z-30 p-2 md:p-3 rounded-full bg-white/5 border border-white/10 hover:border-[#1cd8d2]"
@@ -161,11 +161,10 @@ const Projects = () => {
             <ChevronLeft size={isMobile ? 20 : 28} />
           </button>
 
-          {/* Card */}
           <div
             className="relative overflow-hidden"
             style={{
-              width: isMobile ? "85%" : "85%",
+              width: "85%",
               maxWidth: "1100px",
               height: isMobile ? "55vh" : "65vh",
             }}
@@ -182,21 +181,18 @@ const Projects = () => {
                 className="absolute inset-0"
               >
                 <div className="relative w-full h-full rounded-2xl shadow-2xl bg-white/5 border border-white/10 hover:border-[#1cd8d2]">
-
-                  {/* Project number */}
                   <img
                     src={activeProject.image}
                     alt={activeProject.title}
                     className="w-full h-full object-cover rounded-2xl"
                   />
 
-                  {/* Info */}
                   <div className="absolute bottom-0 left-0 right-0 p-8">
                     <div className="flex flex-wrap gap-2 mb-4">
                       {activeProject.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-3 py-1 text-xs rounded-full border border-white/20 text-white/70 hover:border-[#1cd8d2]"
+                          className="px-3 py-1 text-xs rounded-full border border-white/20 text-white/70"
                         >
                           {tag}
                         </span>
@@ -216,7 +212,6 @@ const Projects = () => {
             </AnimatePresence>
           </div>
 
-          {/* Next */}
           <button
             onClick={goNext}
             className="absolute right-2 md:right-8 z-30 p-2 md:p-3 rounded-full bg-white/5 border border-white/10 hover:border-[#1cd8d2]"
@@ -225,36 +220,43 @@ const Projects = () => {
           </button>
         </div>
 
-        {/* GitHub Button */}
-        <div className="mt-6">
+        <div className="mt-6 flex gap-3">
           <a
             href={activeProject.link}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-[#1cd8d2] text-black hover:scale-105 transition-all"
           >
-            View Project
+            GitHub
             <ArrowUpRight size={16} />
           </a>
+          {activeProject.live && (
+            <a
+              href={activeProject.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full border border-[#1cd8d2] text-[#1cd8d2] hover:scale-105 transition-all"
+            >
+              Live Demo
+              <ArrowUpRight size={16} />
+            </a>
+          )}
         </div>
 
-        {/* Dots */}
         <div className="flex gap-3 mt-4">
           {projects.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => goTo(idx)}
-            className={`h-3 w-3 rounded-full transition-all duration-300 ${
-              activeIndex === idx
-                ? "bg-[#1cd8d2] scale-125"
-                : "bg-white/30 hover:bg-white/50"
-            }`}
-          />
+            <button
+              key={idx}
+              onClick={() => goTo(idx)}
+              className={`h-3 w-3 rounded-full transition-all duration-300 ${
+                activeIndex === idx
+                  ? "bg-[#1cd8d2] scale-125"
+                  : "bg-white/30 hover:bg-white/50"
+              }`}
+            />
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default Projects;
+}

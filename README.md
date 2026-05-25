@@ -35,8 +35,8 @@ A modern, responsive portfolio website built with React and Vite, featuring smoo
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/VikashRaj-cmd/my-portfolio.git
-cd my-portfolio
+git clone https://github.com/VikashRaj-cmd/React-Project.git
+cd React-Project/My-Portfolio
 ```
 
 2. Install dependencies:
